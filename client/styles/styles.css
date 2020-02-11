@@ -1,0 +1,179 @@
+.reviewsModule {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 75px;
+  padding: 50px;
+}
+
+.guestReviews {
+  flex: 1 1 150px;
+  max-width: 330px;
+  color: #484848;
+  z-index: -1;
+}
+
+.aggRating {
+  float: left;
+  position: sticky;
+  top: 18px;
+}
+
+.aggStars {
+  color: #008489;
+}
+
+.aggNum {
+  float: left;
+  margin-right: 5px;
+  font-size: 20px;
+}
+
+.reviewsRightSide {
+  flex: 2 1 380px;
+  max-width: 780px;
+}
+
+.reviewsNameDateStars {
+  max-width: 220px;
+}
+
+.nameDate {
+  font-size: 14px;
+  color: #484848;
+}
+
+.reviewStars {
+  color: #008489;
+  padding-left: 40px;
+}
+
+.reviewAvatar {
+  float: left;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.reviewAvatar:hover {
+  cursor: pointer;
+}
+
+.username {
+  float: left;
+  font-weight: 600;
+  margin: 0px 0px 3px 10px;
+}
+
+.date {
+  float: left;
+  margin: 0px 5px 3px 5px;
+}
+
+.month {
+  float: left;
+  margin-right: 3px;
+}
+
+.reviewText {
+  justify-self: left;
+  color: #484848;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-top: 0px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+.dot {
+  float: left;
+  margin-right: 5px;
+}
+
+.starsNum {
+  font-weight: 600;
+}
+
+.moreButton {
+  border: none;
+  font-size: 18px;
+  color: #008489;
+}
+
+button {
+  border: none;
+  color: #008489;
+}
+
+button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+button:focus {
+  outline: none;
+}
+
+.line {
+  width: auto;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
+}
+
+.reviewStars {
+  position: initial;
+}
+
+.next {
+  border-radius: 75%;
+  border: 1px solid #008489;
+  text-decoration: none;
+}
+
+.previous {
+  border-radius: 75%;
+  border: 1px solid 008489;
+  margin: 0px 5px 0px 0px;
+  text-decoration: none;
+}
+
+.reviewListItems {
+  box-sizing: border-box;
+  justify-items: left;
+  height: auto;
+}
+
+.reviewListItem {
+  box-sizing: border-box;
+  justify-self: left;
+  height: auto;
+}
+
+.pageSelector {
+  justify-self: left;
+}
+
+.username:hover {
+  cursor: pointer;
+}
+
+.dots:hover {
+  cursor: default;
+  text-decoration: none;
+}
+
+.currPage {
+  border-radius: 50%;
+  color: white;
+  background-color: #008489;
+}
+
+.currPage:hover {
+  cursor: default;
+  text-decoration: none;
+}
