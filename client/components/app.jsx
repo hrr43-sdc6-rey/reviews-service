@@ -23,7 +23,7 @@ class App extends React.Component {
     const { expId } = this.props;
     getReviews(expId, (err, allRevs) => {
       if (err) {
-        console.log(err);
+        console.log('error in getReviews', err);
       } else {
         const reducer = (accumulator, currentValue) => accumulator + currentValue.stars;
         const totalStars = allRevs.reduce(reducer, 0);
