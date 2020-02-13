@@ -38,14 +38,15 @@ app.get('/reviews/:id', (req, res) => {
   });
 });
 
-app.post('/reviews/:id', (req, res) => {
+app.post('/reviews', (req, res) => {
   var postData = req.body;
   db.connection.query('INSERT INTO reviews SET ?', postData, function(error, results, fields) {
     if (error) {
       console.log('error in post', error);
-    }
+    } else {
     console.log('post success!');
     res.status(200).send(results);
+    }
   });
 });
 
