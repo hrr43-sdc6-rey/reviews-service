@@ -17,7 +17,6 @@ const csvWriter = createCsvWriter({
 // experience_id 9096 - 100000 = 100 / each
 // experience_id 6 - 9095 = Math.ceil(Math.random() * Math.floor(20)); /each
 
-
 const user = {
   experience_id: null,
   username: faker.name.firstName(),
@@ -27,106 +26,55 @@ const user = {
   review: faker.lorem.paragraph(),
 };
 
-
-
-const records = [];
-
-//beginning
-function firstBatch(expId, numberOfRecords) {
-  user.experience_id = expId;
-  records.push(user);
-  numberOfRecords -= 1;
-  if (numberOfRecords > 0) {
-    firstBatch(expId, numberOfRecords);
-  } else if (numberOfRecords === 0 && expId < 5) {
-    firstBatch(expId++, 100);
+function batch(expId, numberOfRecords) {
+  const records = [];
+  if (expId <= 5 || expId >= 999996) {
+    numberOfRecords = 100;
   }
-}
-
-async function writeFirst() {
-
-  firstBatch();
-  console.log('records');
-
-  await csvWriter.writeRecords(records)
-    .then(() => {
-      console.log('Record Writing Complete first batch');
-    })
-    .catch(() => {
-      console.log('error', error);
-    });
-
-}
-
-
-const randNum = Math.ceil(Math.random() * Math.floor(20));
-const records2 = [];
-
-//middle
-
-function midBatch(expId, numberOfRecords) {
-  user.experience_id = expId;
-  records2.push(user);
-  numberOfRecords -= 1;
-  if (numberOfRecords > 0) {
-    midBatch(expId, numberOfRecords);
-  } else if (numberOfRecords === 0 && expId < 999995) {
-    midBatch(expId++, randNum);
+  for (var i = expId * numberOfRecords +1 ; i < expId * numberOfRecords + numberOfRecords; i++) {
+    user.experience_id = i;
+    records.push(user);
   }
 };
 
-async function writeMiddle() {
-  midBatch(6, randNum);
-  console.log('records2');
-
-  await csvWriter.writeRecords(records2)
+function writeBatch(rec, callback) {
+  csvWriter.writeRecords(rec)
     .then(() => {
-      console.log('Record Writing Complete middle batch');
+      console.log('Record Writing Complete');
+      callback();
     })
     .catch(() => {
       console.log('error', error);
     });
 };
 
+function writeAll() {
+  const exp_id = 0; //the experience id up to 10M
+  const randNumOfRecords = Math.ceil(Math.random() * Math.floor(20)); //number of records per experience id
+  const numberOfBatches = 1000; //number of batches to run
 
-//end
-
-const records3 = [];
-
-function lastBatch(expId, numberOfRecords) {
-  user.experience_id = expId;
-  records3.push(user);
-  numberOfRecords -= 1;
-  if (numberOfRecords > 0) {
-    lastBatch(expId, numberOfRecords);
-  } else if (numberOfRecords === 0 && expId < 1000000) {
-    lastBatch(expId++, 100);
-  }
-}
-
-async function writeLast() {
-  lastBatch(999996, 100);
-  console.log('records3');
-
-  await csvWriter.writeRecords(records3)
-    .then(() => {
-      console.log('Record Writing Complete final batch');
-    })
-    .catch(() => {
-      console.log('error', error);
+  function eachBatch() {
+    writeBatch(batch(exp_id, randNumOfRecords), () => {
+      exp_id++;
+      if ( exp_id < numberOfBatches) {
+        eachBatch();
+      }
     });
-}
+  };
+  eachBatch();
+};
 
+writeAll();
 
-writeFirst()
-  .then(() => {
-    console.log('before middle');
-    writeMiddle()
-      .then(() => {
-        console.log('before last');
-        writeLast()
-      })
-  })
+// writeFirst()
+//   .then(() => {
+//     console.log('before middle');
+//     writeMiddle()
+//       .then(() => {
+//         console.log('before last');
+//         writeLast()
+//       })
+//   })
 
 
 
