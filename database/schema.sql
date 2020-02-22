@@ -3,13 +3,13 @@ CREATE DATABASE airbnb;
 USE airbnb;
 
 CREATE TABLE reviews (
-  id INTEGER NOT NULL AUTO_INCREMENT,
+  id SMALLSERIAL NOT NULL,
   experience_id INTEGER NOT NULL,
   username VARCHAR(20) NOT NULL,
   avatar VARCHAR(150) NOT NULL,
-  date DATE NOT NULL,
+  date date NOT NULL,
   stars INTEGER NOT NULL,
-  review VARCHAR(400) NOT NULL,
+  review VARCHAR NOT NULL,
   PRIMARY KEY(id)
 );
 
