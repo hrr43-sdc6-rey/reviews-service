@@ -1,5 +1,6 @@
 const faker = require('faker');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const mock = require('./MOCK_DATA.json');
 
 const csvWriter = createCsvWriter({
   path: 'reviews.csv',
@@ -17,54 +18,55 @@ const csvWriter = createCsvWriter({
 // experience_id 9096 - 100000 = 100 / each
 // experience_id 6 - 9095 = Math.ceil(Math.random() * Math.floor(20)); /each
 
-const user = {
-  experience_id: null,
-  username: faker.name.firstName(),
-  avatar: faker.image.avatar(),
-  date: faker.date.between('2019-11-01', '2020-02-01'),
-  stars: faker.random.number({ min: 0, max: 5 }),
-  review: faker.lorem.paragraph(),
-};
 
-function batch(expId, numberOfRecords) {
+function set(expId) {
   const records = [];
-  if (expId <= 5 || expId >= 999996) {
-    numberOfRecords = 100;
+  let secondaryRecords = null;
+  if (expId <= 5 || expId >= 9999996) {
+    secondaryRecords = 100;
+  } else {
+    secondaryRecords = Math.ceil(Math.random() * Math.floor(20));
   }
-  for (var i = expId * numberOfRecords +1 ; i < expId * numberOfRecords + numberOfRecords; i++) {
-    user.experience_id = i;
+  for (var i = expId; i < secondaryRecords + expId; i++) {
+    var mkdate = mock[Math.floor(Math.random() * mock.length)]["date"];
+    const user = {
+      experience_id: expId,
+      username: faker.name.firstName(),
+      avatar: faker.image.avatar(),
+      date: mkdate,
+      stars: faker.random.number({ min: 0, max: 5 }),
+      review: faker.lorem.sentences(2),
+    };
     records.push(user);
   }
+  return records;
 };
 
-function writeBatch(rec, callback) {
-  csvWriter.writeRecords(rec)
+function writeSet(sets, callback) {
+  csvWriter.writeRecords(sets)
     .then(() => {
-      console.log('Record Writing Complete');
       callback();
     })
-    .catch(() => {
-      console.log('error', error);
-    });
 };
 
-function writeAll() {
-  const exp_id = 0; //the experience id up to 10M
-  const randNumOfRecords = Math.ceil(Math.random() * Math.floor(20)); //number of records per experience id
-  const numberOfBatches = 1000; //number of batches to run
+function writeAllRecords() {
+  let exp_id = 1;
+  let primaryRecords = 10000000;
 
-  function eachBatch() {
-    writeBatch(batch(exp_id, randNumOfRecords), () => {
+  function primarySets() {
+    writeSet(set(exp_id), () => {
       exp_id++;
-      if ( exp_id < numberOfBatches) {
-        eachBatch();
+      if (exp_id <= primaryRecords) {
+        primarySets();
       }
     });
   };
-  eachBatch();
+  primarySets();
 };
 
-writeAll();
+
+writeAllRecords();
+
 
 // writeFirst()
 //   .then(() => {

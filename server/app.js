@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const ejs = require('ejs');
 const db = require('../database/index.js');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -19,21 +20,26 @@ app.use(cors());
 //   },
 // };
 
-app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 app.engine('html', ejs.renderFile);
 
+
+app.use(express.static('./public'));
 app.get('/:id', (req, res) => {
+  console.log('elsa');
   res.render('../public/index.html');
 });
 
 app.get('/reviews/:id', (req, res) => {
   db.getExpReviews(req.params.id, (err, reviews) => {
     if (err) {
+      console.error(err);
       res.status(400).send(err);
     } else {
-      res.status(200).send(reviews);
+      res.status(200).send(reviews.rows);
+      console.log(reviews.rows);
     }
   });
 });
