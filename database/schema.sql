@@ -3,7 +3,7 @@ CREATE DATABASE airbnb;
 USE airbnb;
 
 CREATE TABLE reviews (
-  id SMALLSERIAL NOT NULL,
+  id SERIAL NOT NULL,
   experience_id INTEGER NOT NULL,
   username VARCHAR(20) NOT NULL,
   avatar VARCHAR(150) NOT NULL,
