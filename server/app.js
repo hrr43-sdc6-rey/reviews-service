@@ -9,17 +9,6 @@ const app = express();
 
 app.use(cors());
 
-// const whitelist = ['http://18.222.165.232:4000', 'http://18.222.165.232:3007', 'http://18.223.132.12:4000', 'http://18.217.113.225:4000', 'http://localhost:3007', 'http://localhost:4000'];
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-// };
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
